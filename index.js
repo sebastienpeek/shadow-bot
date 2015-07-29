@@ -76,7 +76,7 @@ slack.on('message', function(message) {
   	userName = (user != null ? user.name : void 0) != null ? "@" + user.name : "UNKNOWN_USER";
   	console.log("Received: " + type + " " + channelName + " " + userName + " " + ts + " \"" + text + "\"");
 
-  	if (type === 'message' && (text != null) && (channel != null)) {
+  	if (type === 'message' && (text != null) && (channel != null) && (slack.self.name != userName)) {
 
   		responder = new Responder();
   		var response = responder.respondToMessage(message, userName);
