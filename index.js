@@ -77,14 +77,18 @@ slack.on('message', function(message) {
 
   		if (userName == "@sebastien.peek") {
   			if (text == 'are you alive?') {
-  				response = "@sebastien.peek: Why yes, yes I am...";
+  				response = "<@"+ message.user + "> Why yes, yes I am...";
   			} else if (text == "are you still there?") {
-  				response = "@sebastien.peek: Yep, still kicking it!";
+  				response = "<@"+ message.user + "> Yep, still kicking it!";
   			}	
   		}
 
   		if (~text.indexOf("ahaha")) {
-  			response = userName + " what the fuck is so funny?";
+  			response = "<@" + message.user + ">" + " what the fuck is so funny?";
+  		}
+
+  		if (~text.indexOf("coffee")) {
+  			
   		}
 
   		if (response != null) {
