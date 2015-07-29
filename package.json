@@ -18,7 +18,8 @@
   },
   "homepage": "https://github.com/sebastienpeek/shadow-bot",
   "dependencies": {
-    "express": "^4.13.1"
+    "express": "^4.13.1",
+    "slack-client": "^1.4.1"
   },
   "engines": {
     "node": "0.10.33"
