@@ -1,0 +1,26 @@
+{
+  "name": "shadow-bot",
+  "version": "1.0.0",
+  "description": "Slack bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sebastienpeek/shadow-bot.git"
+  },
+  "author": "sebastienpeek",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sebastienpeek/shadow-bot/issues"
+  },
+  "homepage": "https://github.com/sebastienpeek/shadow-bot",
+  "dependencies": {
+    "express": "^4.13.1"
+  },
+  "engines": {
+    "node": "0.10.33"
+  }
+}
