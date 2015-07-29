@@ -16,7 +16,8 @@ app.listen(app.get('port'), function() {
 
 
 // Slack Bot about to start.
-var Slack, autoMark, autoReconnect, slack, token;
+var Slack, autoMark, autoReconnect, slack, token, Responder;
+Responder = require('./response.js');
 Slack = require('slack-client');
 token = 'xoxb-8337261811-Gw2JlzA6VXhj4UNPLLwjdS6e';
 autoReconnect = true;
@@ -61,7 +62,7 @@ slack.on('open', function() {
 
 slack.on('message', function(message) {
 
-	var channel, channelError, channelName, errors, response, text, textError, ts, type, typeError, user, userName;
+	var channel, channelError, channelName, errors, responder, text, textError, ts, type, typeError, user, userName;
 
 	channel = slack.getChannelGroupOrDMByID(message.channel);
 	user = slack.getUserByID(message.user);
@@ -75,26 +76,14 @@ slack.on('message', function(message) {
 
   	if (type === 'message' && (text != null) && (channel != null)) {
 
-  		if (userName == "@sebastien.peek") {
-  			if (text == 'are you alive?') {
-  				response = "<@"+ message.user + "> Why yes, yes I am...";
-  			} else if (text == "are you still there?") {
-  				response = "<@"+ message.user + "> Yep, still kicking it!";
-  			}	
-  		}
-
-  		if (~text.indexOf("ahaha")) {
-  			response = "<@" + message.user + ">" + " what the fuck is so funny?";
-  		}
-
-  		if (~text.indexOf("coffee")) {
-  			
-  		}
+  		responder = new Responder();
+  		var response = responder.respondToMessage(message, userName);
 
   		if (response != null) {
-	  		channel.send(response);
-    		return console.log("@" + slack.self.name + " responded with \"" + response + "\"");
+  			channel.send(response);
+  			return console.log("@" + slack.self.name + " responded with \"" + response + "\"");
   		} 
+
 	} else {
     	typeError = type !== 'message' ? "unexpected type " + type + "." : null;
     	textError = text == null ? 'text was undefined.' : null;
