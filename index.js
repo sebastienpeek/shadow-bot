@@ -64,7 +64,7 @@ slack.on('open', function() {
 slack.on('message', function(message) {
 
 	var channel, channelError, channelName, errors, responder, text, textError, ts, type, typeError, user, userName;
-	
+
 	channel = slack.getChannelGroupOrDMByID(message.channel);
 	user = slack.getUserByID(message.user);
 	type = message.type;
@@ -79,7 +79,7 @@ slack.on('message', function(message) {
 	if (listening) {
 
 		responder = new Responder();
-		var response = responder.respondToMessage(message, userName, slack.self.name);
+		var response = responder.respondToMessage(message, user, slack.self.name);
   		
   		if (response != null) {
   			channel.send(response);
@@ -93,7 +93,7 @@ slack.on('message', function(message) {
 	} else {
 		
 		responder = new Responder();
-		var response = responder.respondToMessage(message, userName, slack.self.name);
+		var response = responder.respondToMessage(message, user, slack.self.name);
   		
   		if (response != null) {
   			// We only want to respond if listening has been turned back on.

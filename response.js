@@ -1,10 +1,11 @@
 var Response;
 
 var SebResponder = require('./users/seb_responses.js');
+var BotResponder = require('./users/bot_responses.js');
 
 Response = (function() {
 
-	Response.prototype.respondToMessage = function(message, userName, slackName) {
+	Response.prototype.respondToMessage = function(message, userObject, slackName) {
 		console.log("respondToMessage() - " + message);
 		var text, response;
 		text = message.text.toLowerCase();
@@ -12,19 +13,22 @@ Response = (function() {
 		if (message.type === 'message' && 
 			(text != null) && 
 			(message.channel != null) && 
-			(slackName != userName)) {
+			(slackName != userObject.name)) {
 
-	  		if (userName == "@sebastien.peek") {
+	  		if (userObject.name == "@sebastien.peek") {
 				sebResponder = new SebResponder();
 				response = sebResponder.respondToText(text);
+  			} else if (userObject.is_bot) {
+  				botResponder = new BotResponder();
+  				response = botResponder.respondToText(text);
   			}
 
   			if (response != null) {
   				var formattedResponse = "<@" + message.user + ">: " + response;
   				return formattedResponse;
   			}
-  			
-		} 
+
+		}
 
 		// else {
 	 //    	typeError = type !== 'message' ? "unexpected type " + type + "." : null;
