@@ -16,13 +16,14 @@ app.listen(app.get('port'), function() {
 
 
 // Slack Bot about to start.
-var Slack, autoMark, autoReconnect, slack, token, Responder;
+var Slack, autoMark, autoReconnect, slack, token, Responder, listening;
 Responder = require('./response.js');
 Slack = require('slack-client');
 token = 'xoxb-8337261811-Gw2JlzA6VXhj4UNPLLwjdS6e';
 autoReconnect = true;
 autoMark = true;
 slack = new Slack(token, autoReconnect, autoMark);
+listening = true;
 
 slack.on('open', function() {
   var channel, channels, group, groups, id, messages, unreads;
@@ -74,28 +75,56 @@ slack.on('message', function(message) {
   	channelName = (channel != null ? channel.is_channel : void 0) ? '#' : '';
   	channelName = channelName + (channel ? channel.name : 'UNKNOWN_CHANNEL');
   	userName = (user != null ? user.name : void 0) != null ? "@" + user.name : "UNKNOWN_USER";
+
   	console.log("Received: " + type + " " + channelName + " " + userName + " " + ts + " \"" + text + "\"");
 
-  	if (type === 'message' && (text != null) && (channel != null) && (slack.self.name != userName)) {
+	if (listening) {
+  		
+	  	if (type === 'message' && (text != null) && (channel != null) && (slack.self.name != userName)) {
 
-  		responder = new Responder();
-  		var response = responder.respondToMessage(message, userName);
+	  		responder = new Responder();
+	  		var response = responder.respondToMessage(message, userName);
 
-  		if (response != null) {
-  			channel.send(response);
-  			return console.log("@" + slack.self.name + " responded with \"" + response + "\"");
-  		} 
+	  		if (response != null) {
+	  			channel.send(response);
+	  			if (~response.indexOf("back to the shadows")) {
+	  				listening = false;
+	  			};
+	  			return console.log("@" + slack.self.name + " responded with \"" + response + "\"");
+	  		} 
+
+		} else {
+	    	typeError = type !== 'message' ? "unexpected type " + type + "." : null;
+	    	textError = text == null ? 'text was undefined.' : null;
+	    	channelError = channel == null ? 'channel was undefined.' : null;
+	    	errors = [typeError, textError, channelError].filter(function(element) {
+	      		return element !== null;
+	    }).join(' ');
+			return console.log("@" + slack.self.name + " could not respond. " + errors);
+	  	}
 
 	} else {
-    	typeError = type !== 'message' ? "unexpected type " + type + "." : null;
-    	textError = text == null ? 'text was undefined.' : null;
-    	channelError = channel == null ? 'channel was undefined.' : null;
-    	errors = [typeError, textError, channelError].filter(function(element) {
-      		return element !== null;
-    }).join(' ');
-		return console.log("@" + slack.self.name + " could not respond. " + errors);
-  }
+		if (type === 'message' && (text != null) && (channel != null) && (slack.self.name != userName)) {
+			responder = new Responder();
+			var response = responder.respondToMessage(message, userName);
 
+			if (response != null) {
+	  			if (~response.indexOf("back from the shadows")) {
+	  				channel.send(response);
+	  				listening = true;
+	  			};
+	  			return console.log("@" + slack.self.name + " responded with \"" + response + "\"");
+	  		}
+		} else {
+	    	typeError = type !== 'message' ? "unexpected type " + type + "." : null;
+	    	textError = text == null ? 'text was undefined.' : null;
+	    	channelError = channel == null ? 'channel was undefined.' : null;
+	    	errors = [typeError, textError, channelError].filter(function(element) {
+	      		return element !== null;
+	    }).join(' ');
+			return console.log("@" + slack.self.name + " could not respond. " + errors);
+	  	}
+	}
 
 });
 
