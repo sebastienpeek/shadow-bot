@@ -70,13 +70,17 @@ slack.on('message', function(message) {
         var response = res;
     		
     		if (response != null) {
-    			// We only want to respond if listening has been turned back on.
+    			// We only want to respond if listening has been turned back on or if heartbeat response.
     			if (~response.indexOf("darkness")) {
     				listening = true;
     				channel.send(response);
-    				
     				return console.log("@" + slack.self.name + " responded with \"" + response + "\"");
     			}
+
+          if (~response.indexOf("breathing")) {
+            channel.send(response);
+            return console.log("@" + slack.self.name + " responded with \"" + response + "\"");
+          }
     		}
       });
   	}

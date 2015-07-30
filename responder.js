@@ -1,6 +1,5 @@
 var Responder;
 
-var SebResponder = require('./responders/seb_responses.js');
 var BotResponder = require('./responders/bot_responses.js');
 var CommandResponder = require('./responders/command_responses.js');
 
@@ -39,15 +38,7 @@ Responder = (function() {
 					};
 				});
 			} else {
-				if (userObject.name == "sebastien.peek") {
-					sebResponder = new SebResponder();
-					sebResponder.respondToText(text, function(response){
-						if (response != null) {
-  							var formattedResponse = "<@" + message.user + "> " + response;
-							res(formattedResponse);
-						};
-					});
-	  			} else if (userObject.is_bot) {
+				if (userObject.is_bot) {
 	  				botResponder = new BotResponder();
 	  				response = botResponder.respondToText(text, function(response){
 	  					if (response != null) {
@@ -57,7 +48,7 @@ Responder = (function() {
 	  				});
 	  			}
 			}
-			
+
 		} else {
 			return null;
 		}

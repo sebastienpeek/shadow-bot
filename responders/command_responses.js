@@ -12,13 +12,13 @@ CommandResponder = (function() {
 
 		if (~text.indexOf("lurk") || ~text.indexOf("disappear") || 
 			~text.indexOf("hide") || ~text.indexOf("fuck off") || 
-			~text.indexOf("kill yourself") || ~text.indexOf("piss off")) {
+			~text.indexOf("kill yourself") || ~text.indexOf("piss off") && user.name == "sebastien.peek") {
 			response("Okay, I'll go back to the shadows...");
 		} else if (~text.indexOf("show yourself") || ~text.indexOf("return") || 
-			~text.indexOf("activate") || ~text.indexOf("come back")) {
+			~text.indexOf("activate") || ~text.indexOf("come back") && user.name == "sebastien.peek") {
 			response("I am back from the darkness in which you sent me.");
-		} else if (~text.indexOf("breathing") || ~text.indexOf("heartbeat"))  {
-			response("I'm still around, no one is asking me anything lately so I'm just kicking it.");
+		} else if (~text.indexOf("breathing") || ~text.indexOf("heartbeat" || ~text.indexOf("alive")))  {
+			response("I'm still breathing, no one is asking me anything lately so I'm just kicking it.");
 		} else if (~text.indexOf("is") || ~text.indexOf("know") || ~text.indexOf("what's")) {
 			if (~text.indexOf("weather")) {
 				this.fulfillCommand("getWeather", text, function(data) {
