@@ -12,14 +12,14 @@ CommandResponder = (function() {
 
 		if (~text.indexOf("lurk") || ~text.indexOf("disappear") || 
 			~text.indexOf("hide") || ~text.indexOf("fuck off") || 
-			~text.indexOf("kill yourself") || ~text.indexOf("piss off") && user.name == "sebastien.peek") {
+			~text.indexOf("kill yourself") || ~text.indexOf("piss off") && user == "sebastien.peek") {
 			response("Okay, I'll go back to the shadows...");
 		} else if (~text.indexOf("show yourself") || ~text.indexOf("return") || 
-			~text.indexOf("activate") || ~text.indexOf("come back") && user.name == "sebastien.peek") {
+			~text.indexOf("activate") || ~text.indexOf("come back") && user == "sebastien.peek") {
 			response("I am back from the darkness in which you sent me.");
 		} else if (~text.indexOf("breathing") || ~text.indexOf("heartbeat" || ~text.indexOf("alive")))  {
 			response("I'm still breathing, no one is asking me anything lately so I'm just kicking it.");
-		} else if (~text.indexOf("is") || ~text.indexOf("know") || ~text.indexOf("what's")) {
+		} else if (~text.indexOf("is") || ~text.indexOf("know")) {
 			if (~text.indexOf("weather")) {
 				this.fulfillCommand("getWeather", text, function(data) {
 					response(data);
@@ -29,9 +29,16 @@ CommandResponder = (function() {
 					response(data);
 				})
 			} else {
-				this.fulfillCommand("unknown", text, function(data){
-					response(data);
-				});
+
+			}
+		} else if (~text.indexOf("order")) {
+				// Add in order shit, like, order me a coffee?
+			if (~text.indexOf("coffee")) {
+				this.fulfillCommand("orderCoffee", text, function(data) {
+					response(data)
+				})
+			} else {
+
 			}
 		} else {
 			response("I'll learn how to respond to that soon.");
@@ -81,10 +88,11 @@ CommandResponder = (function() {
 			});
 
 		} else if (command == "getTime") {
-
 			// Same as above, can simply add in JSON file with list of cities supported and their GMT etc
-			data("I'm working on getting the time, stop rushing me.");
+			data("I'll get there soon, meanwhile, how about you try something else?");
 
+		} else if (command == "orderCoffee") {
+			data("Imagine a world where a bot can order you a coffee...");
 		} else {
 			data("Unknown command, uwotm9?");
 		}

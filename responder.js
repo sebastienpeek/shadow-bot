@@ -31,7 +31,7 @@ Responder = (function() {
 
 			if (isCommand) {
 				var commandResponder = new CommandResponder();
-				commandResponder.respondToCommand(text, userObject, function(response){
+				commandResponder.respondToCommand(text, message.user, function(response){
 					if (response != null) {
 						var formattedResponse = "<@" + message.user + "> " + response;
 						res(formattedResponse);	
