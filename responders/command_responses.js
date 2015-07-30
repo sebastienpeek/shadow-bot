@@ -25,9 +25,9 @@ CommandResponder = (function() {
 					response(data);
 				});
 			} else if (~text.indexOf("time")) {
-				this.fulfillCommand("getTime", text, function(data)) {
+				this.fulfillCommand("getTime", text, function(data) {
 					response(data);
-				}
+				})
 			} else {
 				this.fulfillCommand("unknown", text, function(data){
 					response(data);
