@@ -24,6 +24,10 @@ CommandResponder = (function() {
 				this.fulfillCommand("getWeather", text, function(data) {
 					response(data);
 				});
+			} else if (~text.indexOf("time")) {
+				this.fulfillCommand("getTime", text, function(data)) {
+					response(data);
+				}
 			} else {
 				this.fulfillCommand("unknown", text, function(data){
 					response(data);
@@ -41,7 +45,8 @@ CommandResponder = (function() {
 
 			var path;
 			var cityName;
-
+			
+			// Maybe I build up a JSON file with a list of cities and the changed path so this becomes unneccessary?
 			if (~text.indexOf("melbourne")) {
 				path = '/data/2.5/find?q=Melbourne,AU&units=metric'
 				cityName = "Melbourne"
@@ -74,6 +79,12 @@ CommandResponder = (function() {
   				var currentTemp = today.main.temp;
   				data("The current temperature is " + currentTemp + "°C in " + cityName);
 			});
+
+		} else if (command == "getTime") {
+
+			// Same as above, can simply add in JSON file with list of cities supported and their GMT etc
+			data("I'm working on getting the time, stop rushing me.");
+
 		} else {
 			data("Unknown command, uwotm9?");
 		}
