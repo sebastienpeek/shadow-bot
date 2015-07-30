@@ -1,8 +1,6 @@
 var CommandResponder;
 var restify = require('restify');
 
-var weatherToken = "679a5b322d8f24ab4a888e2e5b731183";
-
 CommandResponder = (function() {
 
 	var weatherClient = restify.createJsonClient({
