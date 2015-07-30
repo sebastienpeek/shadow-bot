@@ -2,12 +2,9 @@ var BotResponder;
 
 BotResponder = (function() {
 
-	BotResponder.prototype.respondToText = function(text) {
+	BotResponder.prototype.respondToText = function(text, response) {
 		console.log("respondToBotText() - " + text);
-		var response;
-
-  		return response;
-
+		response(null);		
 	};
 
 });
